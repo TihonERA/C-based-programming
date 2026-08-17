@@ -4,15 +4,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+double variables[26] = {NAN};
+char last_var;
+
 int main() {
-	int type;
-	double op1, op2;
+	int type, index;
+	double op1, op2, num;
 	char s[MAXOP];
 
+	int print_result = 1;
 	while ((type = getop(s)) != EOF) {
 		switch (type) {
 			case NUMBER:
-				push(atof(s));
+				num = atof(s);
+				push(num);
+				break;
+			case VARIABLE:
+				last_var = s[0] - 'a';
+				push(variables[last_var]);
+				break;
+			case '=':
+				pop();
+				variables[last_var] = pop();
+				print_result = 0;
+				printf("Сохранил в переменную %c значение %.8g\n", last_var + 'a', variables[last_var]);
 				break;
 			case '+':
 				op2 = pop();
@@ -45,6 +60,10 @@ int main() {
 				push(fmod(op1, op2));
 				break;
 			case '\n':
+				if (!print_result) {
+					print_result = 1;
+					break;
+				}
 				printf("Результат: %.8g\n", pop());
 				break;
 			default:

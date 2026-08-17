@@ -11,6 +11,9 @@ int getop(char s[]) {
 	s[1] = '\0';
 
 	if (!isdigit(c) && c != '.' && c != '-') {
+		if (islower(c)) {
+			return VARIABLE;
+		}
 		return c;
 	}
 	i = 0;
