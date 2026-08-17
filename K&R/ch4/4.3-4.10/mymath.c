@@ -1,25 +1,22 @@
 #include "mymath.h"
-#include <math.h>
+#include <stdio.h>
 
-double mysin(double degree) {
-	degree = degree * (M_PI / 180);
-	degree = fmod(degree, 2 * M_PI);
+double mysin(double radian) {
+	double term = radian;
+	double sum = radian;
 
-	double term = degree;
-	double sum = degree;
-
-	for (int i = 2; i < 14; i += 2) {
-		term = term * (-(degree * degree) / (i * (i + 1)));
+	for (int i = 2; i < 30; i += 2) {
+		term = term * (-(radian * radian) / (i * (i + 1)));
 		sum += term;
 	}
 		
 	return sum;
 }
 
-double exp(double n) {
-	double term, sum = 1;
+double myexp(double n) {
+	double term = 1, sum = 1;
 
-	for (int i = 1; i < 10; i++) {
+	for (int i = 1; i < 30; i++) {
 		term = term * n / i;
 		sum += term;
 	}
@@ -27,13 +24,13 @@ double exp(double n) {
 	return sum;
 }
 
-double ln(double x) {
+double myln(double x) {
 	double base = (x - 1) / (x + 1);
 	double sum = base;
 	double term = base;
 	double current_slice;
 
-	for (int n = 1; n < 10; n++) {
+	for (int n = 1; n < 50; n++) {
 		double base_sq = base * base;
 
 		term = term * base_sq;
@@ -42,9 +39,10 @@ double ln(double x) {
 
 		sum += current_slice;
 	}
+	printf("%g\n", 2*sum);
 	return 2 * sum;
 }
 
-double pow(double x, double y) {
-	return exp(y * ln(x));
+double mypow(double x, double y) {
+	return myexp(y * myln(x));
 }

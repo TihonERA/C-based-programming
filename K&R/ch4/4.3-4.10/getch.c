@@ -2,19 +2,16 @@
 #include <string.h>
 #include "getch.h"
 
-char buf[BUFFSIZE];
+char otsym = '\0';
 int bufp = 0;
 
 int getch(void) {
-	return (bufp > 0) ? buf[--bufp] : getchar();
+	return (bufp) ? otsym : getchar();
 }
 
 void ungetch(int c) {
-	if (bufp < BUFFSIZE) {
-		buf[bufp++] = c;
-	}
-	else {
-		printf("ungetch: Too many characters\n");
+	if (bufp) {
+		otsym = c;
 	}
 }
 

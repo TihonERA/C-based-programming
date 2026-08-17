@@ -1,5 +1,6 @@
 #include "getop.h"
 #include "stack.h"
+#include "mymath.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,6 +59,17 @@ int main() {
 				op2 = pop();
 				op1 = pop();
 				push(fmod(op1, op2));
+				break;
+			case 'S':
+				push(mysin(pop()));
+				break;
+			case 'E':
+				push(myexp(pop()));
+				break;
+			case 'P':
+				op2 = pop();
+				op1 = pop();
+				push(mypow(op1, op2));
 				break;
 			case '\n':
 				if (!print_result) {

@@ -2,8 +2,8 @@
 #define MYMATH_H
 
 double mysin(double);
-double exp(double);
-double ln(double);
-double pow(double, double);
+double myexp(double);
+double myln(double);
+double mypow(double, double);
 
 #endif
