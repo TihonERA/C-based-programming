@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "getch.h"
 
 char buf[BUFFSIZE];
@@ -16,3 +17,10 @@ void ungetch(int c) {
 		printf("ungetch: Too many characters\n");
 	}
 }
+
+void ungets(char s[]) {
+	for (int i = strlen(s)-1; i >= 0; i++) {
+		ungetch(i);
+	}
+}
+
