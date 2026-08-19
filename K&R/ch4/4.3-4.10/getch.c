@@ -2,7 +2,7 @@
 #include <string.h>
 #include "getch.h"
 
-char otsym = '\0';
+int otsym = -999999;
 int bufp = 0;
 
 int getch(void) {

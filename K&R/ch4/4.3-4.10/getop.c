@@ -35,8 +35,10 @@ int getop(char s[]) {
 		while (isdigit(s[++i] = c = getch()))
 			;
 	}
+	ungetch(c);
 	if (c == '.' && !has_dot)
 		while(isdigit(s[++i] = c = getch()))
 			;
+	ungetch(c);
 	return NUMBER;
 }
