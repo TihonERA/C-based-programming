@@ -5,4 +5,6 @@
 
 int getch(void);
 void ungetch(int);
+int mygetline(char[], int);
+
 #endif

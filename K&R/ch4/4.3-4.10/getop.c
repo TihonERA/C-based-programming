@@ -1,44 +1,66 @@
 #include "getop.h"
 #include "getch.h"
 #include <ctype.h>
+#include <stdio.h>
+
+char line[MAXLINE];
+int li = 0;
+
+int _get_newline_if_end(void) {
+  if (line[li] == '\0' || line[li] == '\n') {
+    if (line[li] == '\n') {
+      return line[li];
+    }
+    if ((mygetline(line, MAXLINE)) == 0) {
+      return EOF;
+    }
+    li = 0;
+  }
+  return 0;
+}
+
+int strip_returning_first_found_symbol() {
+  while (line[li] == ' ' || line[li] == '\t') {
+    li++;
+  }
+  return line[li++];
+}
 
 int getop(char s[]) {
-	int i, c, has_dot;
+  int i, c;
 
-	while ((s[0] = c = getch()) == ' ' || c == '\t') 
-		;
+  _get_newline_if_end();
 
-	s[1] = '\0';
+  c = strip_returning_first_found_symbol();
 
-	if (!isdigit(c) && c != '.' && c != '-') {
-		if (islower(c)) {
-			return VARIABLE;
-		}
-		return c;
-	}
-	i = 0;
+  s[0] = c;
+  s[1] = '\0';
 
-	has_dot = 0;	
-	if (c == '-') {
-		char next_char = getch();
-		if (isdigit(next_char) || next_char == '.') {
-			has_dot = next_char == '.';
-			s[++i] = next_char;
-			c = next_char;
-		}
-		else {
-			ungetch(next_char);
-		 	return '-';
-		}
-	}
-	if (isdigit(c)) {
-		while (isdigit(s[++i] = c = getch()))
-			;
-	}
-	ungetch(c);
-	if (c == '.' && !has_dot)
-		while(isdigit(s[++i] = c = getch()))
-			;
-	ungetch(c);
-	return NUMBER;
+  if (!isdigit(c) && c != '.' && c != '-') {
+    if (islower(c)) {
+      li++;
+      return VARIABLE;
+    }
+    return c;
+  }
+  if (c == '-' && !isdigit(line[li])) { // проверка, что не негативное число
+    return c;
+  }
+
+  i = 0;
+
+  while (isdigit((c = line[li]))) { // запись числа в строку
+    s[++i] = c;
+    li++;
+  }
+
+  if (c == '.') {
+    s[++i] = c;
+    while (isdigit((c = line[++li]))) {
+      s[++i] = c;
+    }
+  }
+
+  s[++i] = '\0';
+  return NUMBER;
 }
