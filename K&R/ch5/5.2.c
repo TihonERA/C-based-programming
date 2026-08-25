@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define BUFP_LEN 255
 
@@ -60,7 +61,7 @@ int getfloat(double *pn) {
 
 int main() {
   int n, boolean;
-  double array[100] = {0};
+  double *array = malloc(100 * sizeof(double));
 
   for (n = 0; n < 100 && (boolean = getfloat(&array[n])) != EOF; n++) {
     printf("%d\n", boolean);
@@ -69,4 +70,5 @@ int main() {
     }
     putchar(10);
   }
+  free(array);
 }
