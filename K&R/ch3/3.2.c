@@ -1,52 +1,44 @@
-#include <stdio.h>
-
-void escape(char s[], char t[]) {
-	int i, j;
-
-	j = 0;
-	for (i = 0; t[i] != '\0'; i++) {
-		switch (t[i]) {
-			case '\n':
-				s[j++] = '\\';
-				s[j++] = 'n';
-				break;
-			case '\t':
-				s[j++] = '\\';
-				s[j++] = 't';
-				break;
-			default:
-				s[j++] = t[i];
-		}
-	}
-	s[j] = '\0';
+void escape(char *s, char *t) {
+  for (; *t != '\0'; t++) {
+    switch (*t) {
+    case '\n':
+      *s++ = '\\';
+      *s++ = 'n';
+      break;
+    case '\t':
+      *s++ = '\\';
+      *s++ = 't';
+      break;
+    default:
+      *s++ = *t;
+    }
+  }
+  *s = '\0';
 }
 
-void reverse_escape(char s[], char t[]) {
-	int i, j;
+void reverse_escape(char *s, char *t) {
+  for (; *t != '\0'; t++) {
+    switch (*t) {
+    case '\\':
+      switch (t[1]) {
+      case 'n':
+        *s++ = '\n';
+        t++;
+        break;
+      case 't':
+        *s++ = '\t';
+        t++;
+        break;
+      default:
+        *s++ = *t;
+        break;
+      }
 
-	j = 0;
-	for (i = 0; t[i] != '\0'; i++) {
-		switch (t[i]) {
-			case '\\':
-				switch (t[i+1]) {
-					case 'n':
-						s[j++] = '\n';
-						i++;
-						break;
-					case 't':
-						s[j++] = '\t';
-						i++;
-						break;
-					default:
-						s[j++] = t[i];
-						break;
-				}
-				
-				break;
-			default:
-				s[j++] = t[i];
-				break;
-		}
-	}
-	s[j] = '\0';
+      break;
+    default:
+      *s++ = *t;
+      break;
+    }
+  }
+  *s = '\0';
 }

@@ -5,18 +5,18 @@
 int otsym = -999999;
 int bufp = 0;
 
-int mygetline(char s[], int lim) {
-  int i, c;
+int mygetline(char *s, int lim) {
+  char *start = s;
+  int c;
 
-  i = 0;
   while (--lim > 0 && (c = getchar()) != EOF && c != '\n') {
-    s[i++] = c;
+    *s++ = c;
   }
   if (c == '\n') {
-    s[i++] = c;
+    *s++ = c;
   }
-  s[i] = '\0';
-  return i;
+  *s = '\0';
+  return s - start;
 }
 
 int getch(void) { return (bufp) ? otsym : getchar(); }
@@ -27,8 +27,8 @@ void ungetch(int c) {
   }
 }
 
-void ungets(char s[]) {
-  for (int i = strlen(s) - 1; i >= 0; i++) {
+void ungets(char *s) {
+  for (int i = strlen(s) - 1; i >= 0; i--) {
     ungetch(i);
   }
 }

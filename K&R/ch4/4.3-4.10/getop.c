@@ -4,29 +4,29 @@
 #include <stdio.h>
 
 char line[MAXLINE];
-int li = 0;
+char *li = line;
 
 int _get_newline_if_end(void) {
-  if (line[li] == '\0' || line[li] == '\n') {
-    if (line[li] == '\n') {
-      return line[li];
+  if (*li == '\0' || *li == '\n') {
+    if (*li == '\n') {
+      return *li;
     }
     if ((mygetline(line, MAXLINE)) == 0) {
       return EOF;
     }
-    li = 0;
+    li = line;
   }
   return 0;
 }
 
 int strip_returning_first_found_symbol() {
-  while (line[li] == ' ' || line[li] == '\t') {
+  while (*li == ' ' || *li == '\t') {
     li++;
   }
-  return line[li++];
+  return *li++;
 }
 
-int getop(char s[]) {
+int getop(char *s) {
   int i, c;
 
   _get_newline_if_end();
@@ -43,24 +43,24 @@ int getop(char s[]) {
     }
     return c;
   }
-  if (c == '-' && !isdigit(line[li])) { // проверка, что не негативное число
+  if (c == '-' && !isdigit(*li)) { // проверка, что не негативное число
     return c;
   }
 
   i = 0;
 
-  while (isdigit((c = line[li]))) { // запись числа в строку
-    s[++i] = c;
+  while (isdigit((c = *li))) { // запись числа в строку
+    *(++s) = c;
     li++;
   }
 
   if (c == '.') {
-    s[++i] = c;
-    while (isdigit((c = line[++li]))) {
-      s[++i] = c;
+    *(++s) = c;
+    while (isdigit((c = *(++li)))) {
+      *(++s) = c;
     }
   }
 
-  s[++i] = '\0';
+  *(++s) = '\0';
   return NUMBER;
 }

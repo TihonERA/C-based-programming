@@ -1,13 +1,17 @@
-int strrindex(char s[], char t[]) {
-  int i, j, k, start;
+#include <string.h>
+
+int strrindex(char *s, char *t) {
+  int start;
+  char *sstart = s;
+  char *j, *k;
 
   start = -1;
-  for (i = 0; s[i] != '\0'; i++) {
-    for (j = i, k = 0; t[k] != '\0' && s[j] == t[k]; j++, k++) {
+  for (; *s != '\0'; s++) {
+    for (j = s, k = t; *k != '\0' && *j == *k; j++, k++) {
       ;
     }
-    if (k > 0 && t[k] == '\0') {
-      start = j;
+    if ((k - t) > 0 && *k == '\0') {
+      start = (j - sstart) - (strlen(t));
     }
   }
   return start;

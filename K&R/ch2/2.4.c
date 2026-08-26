@@ -1,31 +1,17 @@
-#include <stdio.h>
+void alt_squeeze(char *a1, char *a2) {
+  char *save_symbols_pointer = a1;
+  char *searching_pointer;
 
-void alt_squeeze(char array1[], char array2[]) {
-   	int i, j, l;
+  for (; *a1 != '\0'; a1++) {
+    for (searching_pointer = a2;
+         *searching_pointer != '\0' && *searching_pointer != *a1;
+         searching_pointer++)
+      ;
 
-	for (i = 0; array1[i] != '\0'; i++) {
-		j = 0;
+    if (*searching_pointer == '\0') {
+      *save_symbols_pointer++ = *a1;
+    }
+  }
 
-		while (array2[j] != '\0' && array2[j] != array1[i]) {;
-			j++;
-		}
-
-		if (array2[j] == '\0') {
-			array1[l++] = array1[i];
-		}
-	}
-
-	array1[l] = '\0';
+  *save_symbols_pointer = '\0';
 }
-int main() {
-	char string1[50] = "pidorokpidorok";
-	char string2[50] = "orokorokorokorok";
-
-	alt_squeeze(string1, string2);
-
-	printf("%s\n", string1);
-
-	return 0;
-}
-
-    
